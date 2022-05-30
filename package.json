@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "prettier --check . && eslint .",
+    "lint:fix": "prettier --write . && eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -23,8 +25,10 @@
     "babel-jest": "^28.1.0",
     "eslint": "^8.16.0",
     "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.26.0",
     "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0"
+    "jest-environment-jsdom": "^28.1.0",
+    "prettier": "2.6.2"
   }
 }
