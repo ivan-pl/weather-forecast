@@ -28,18 +28,25 @@ module.exports = {
         test: /\.css$/i,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
     ],
   },
   optimization: {
     minimizer: [`...`, new CssMinimizerPlugin()],
   },
   plugins: [
-    new HtmlWebpackPlugin({ template: "./src/index.html" }),
+    new HtmlWebpackPlugin({
+      template: "./src/index.html",
+    }),
     new MiniCssExtractPlugin(),
   ],
   devServer: {
     compress: true,
     port: 9000,
     open: true,
+    watchFiles: ["*.html"],
   },
 };
