@@ -1,5 +1,4 @@
 import "normalize.css";
+import { addHeader } from "./addHeader";
 
-const h1 = document.createElement("h1");
-h1.innerText = "Test";
-document.body.appendChild(h1);
+addHeader(document.body);
