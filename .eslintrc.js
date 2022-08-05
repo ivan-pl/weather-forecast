@@ -21,5 +21,14 @@ module.exports = {
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
   },
+  overrides: [
+    {
+      files: ["setupJest.js"],
+      rules: {
+        "no-undef": "off",
+        "import/no-extraneous-dependencies": "off",
+      },
+    },
+  ],
   plugins: ["jest"],
 };

@@ -4,6 +4,9 @@
  */
 
 module.exports = {
+  automock: false,
+  resetMocks: false,
+  setupFiles: ["./setupJest.js"],
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
