@@ -29,6 +29,12 @@ module.exports = {
         "import/no-extraneous-dependencies": "off",
       },
     },
+    {
+      files: ["jest.config.js"],
+      rules: {
+        "max-len": "off",
+      },
+    },
   ],
   plugins: ["jest"],
 };

@@ -1,4 +1,12 @@
-import { getCurrentCity, getWeatherInfo } from "./weatherForecast";
+import fs from "fs";
+import path from "path";
+import {
+  getCurrentCity,
+  getWeatherInfo,
+  loadStarterPage,
+} from "./weatherForecast";
+
+const html = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf8");
 
 describe("getCurrentCity", () => {
   beforeEach(() => {
@@ -97,6 +105,44 @@ describe("getWeatherInfo", () => {
   });
 
   afterEach(() => {
+    fetch.dontMock();
+  });
+});
+
+describe("loadStarterPage", () => {
+  beforeEach(() => {
+    document.documentElement.innerHTML = html.toString();
+  });
+
+  it("checks layout", () => {
+    expect(document.querySelector(".forecast__city")).not.toBeNull();
+    expect(document.querySelector(".forecast__temperature")).not.toBeNull();
+    expect(document.querySelector(".forecast__image")).not.toBeNull();
+  });
+
+  it("shows city and temperature", async () => {
+    fetch.resetMocks();
+    fetch.dontMock();
+    await loadStarterPage();
+    expect(document.querySelector(".forecast__city").innerText).toMatch(
+      /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/
+    );
+    expect(
+      typeof document.querySelector(".forecast__temperature").innerText
+    ).toBe("number");
+    expect(document.querySelector(".forecast__image").src).toMatch(
+      /openweathermap/
+    );
+  });
+
+  it("shows Moscow and temperature = ?", async () => {
+    fetch.doMock();
+    fetch.mockReject(new Error("Unknown error"));
+    await loadStarterPage();
+    expect(document.querySelector(".forecast__city").innerText).toBe("Moscow");
+    expect(document.querySelector(".forecast__temperature").innerText).toBe(
+      "?"
+    );
     fetch.dontMock();
   });
 });

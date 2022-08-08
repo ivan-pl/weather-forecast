@@ -32,6 +32,10 @@ module.exports = {
         test: /\.html$/i,
         loader: "html-loader",
       },
+      {
+        test: /\.png/,
+        type: "asset/resource",
+      },
     ],
   },
   optimization: {

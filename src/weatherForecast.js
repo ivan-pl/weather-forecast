@@ -1,3 +1,5 @@
+import unknownWeatherImg from "./unknown_weather.png";
+
 const DEFAULT_CITY = "Moscow";
 const API_WEATHER = "c2e143f433c82cecf1f594126af9bfd5";
 
@@ -31,5 +33,22 @@ export async function getWeatherInfo(city) {
     return await response.json();
   } catch {
     return null;
+  }
+}
+
+export async function loadStarterPage() {
+  const cityName = await getCurrentCity();
+  document.querySelector(".forecast__city").innerText = cityName;
+
+  const weatherInfo = await getWeatherInfo(cityName);
+  if (weatherInfo) {
+    document.querySelector(".forecast__temperature").innerText =
+      weatherInfo.main.temp;
+    document.querySelector(".forecast__image").src =
+      "http://openweathermap.org/img/wn/" +
+      `${weatherInfo.weather[0].icon}.png`;
+  } else {
+    document.querySelector(".forecast__temperature").innerText = "?";
+    document.querySelector(".forecast__image").src = unknownWeatherImg;
   }
 }
