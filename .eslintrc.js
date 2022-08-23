@@ -14,6 +14,8 @@ module.exports = {
       "error",
       { ignoreComments: true, ignorePattern: "^\\s*it.*\\{$" },
     ],
+    "no-alert": "off",
+    "no-use-before-define": "off",
     "import/prefer-default-export": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
@@ -33,6 +35,13 @@ module.exports = {
       files: ["jest.config.js"],
       rules: {
         "max-len": "off",
+      },
+    },
+    {
+      files: ["*.test.js"],
+      rules: {
+        "no-await-in-loop": "off",
+        "no-restricted-syntax": "off",
       },
     },
   ],

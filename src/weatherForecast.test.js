@@ -4,6 +4,7 @@ import {
   getCurrentCity,
   getWeatherInfo,
   loadStarterPage,
+  clickWeatherButton,
 } from "./weatherForecast";
 
 const html = fs.readFileSync(path.resolve(__dirname, "index.html"), "utf8");
@@ -144,5 +145,91 @@ describe("loadStarterPage", () => {
       "?"
     );
     fetch.dontMock();
+  });
+});
+
+describe("clickWeatherButton", () => {
+  beforeEach(() => {
+    fetch.resetMocks();
+    fetch.dontMock();
+    document.documentElement.innerHTML = html.toString();
+  });
+
+  async function enterCity(cityName) {
+    document.querySelector(".history__input-city").value = cityName;
+    await clickWeatherButton({
+      target: document.querySelector(".history__button"),
+    });
+  }
+
+  it("shows weather for Berlin", async () => {
+    const cityName = "Berlin";
+    await enterCity(cityName);
+
+    expect(document.querySelector(".forecast__city").innerText).toBe(cityName);
+    expect(
+      typeof document.querySelector(".forecast__temperature").innerText
+    ).toBe("number");
+  });
+
+  it("shows alert without making changes", async () => {
+    function getWeatherInfoFromPage() {
+      return {
+        cityName: document.querySelector(".forecast__city").innerText,
+        temperature: document.querySelector(".forecast__temperature").innerText,
+      };
+    }
+
+    const alertOriginal = window.alert;
+    window.alert = jest.fn();
+    const prevData = getWeatherInfoFromPage();
+
+    const cityName = "noSuchCityName";
+    await enterCity(cityName);
+
+    const curData = getWeatherInfoFromPage();
+    expect(curData).toEqual(prevData);
+    expect(alert.mock.calls).toHaveLength(1);
+    expect(alert.mock.calls[0][0]).toBe(
+      `Failed to get weather for ${cityName}`
+    );
+
+    window.alert = alertOriginal;
+  });
+
+  it("adds cities into localStorage", async () => {
+    const cityNames = ["Moscow", "Berlin", "London"];
+    for (const cityName of cityNames) {
+      await enterCity(cityName);
+    }
+
+    const historyList = Array.from(
+      document.querySelectorAll(".history__city")
+    ).map((item) => item.innerText);
+    expect(historyList.reverse()).toEqual(cityNames);
+  });
+
+  it("saves only 10 last cities", async () => {
+    const weather = {
+      main: {
+        temp: 29.51,
+      },
+      weather: [
+        {
+          icon: "01d",
+        },
+      ],
+    };
+
+    fetch.mockResolvedValue({
+      status: 200,
+      json: () => Promise.resolve(weather),
+    });
+
+    const cityNames = new Array(14).fill("Moscow");
+    for (const cityName of cityNames) {
+      await enterCity(cityName);
+    }
+    expect(JSON.parse(localStorage.getItem("historyList"))).toHaveLength(10);
   });
 });
