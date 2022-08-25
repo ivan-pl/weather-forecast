@@ -1,7 +1,9 @@
 import unknownWeatherImg from "./unknown_weather.png";
+import unknownLocationImg from "./unknown_location.png";
 
 const DEFAULT_CITY = "Moscow";
 const API_WEATHER = "c2e143f433c82cecf1f594126af9bfd5";
+const API_MAP = "AIzaSyBvy99KNEQifxuO5EFIQGMIeO3V8AJNjxs";
 
 async function getCityName(response) {
   if (response.status !== 200) {
@@ -10,6 +12,32 @@ async function getCityName(response) {
 
   const responseObj = await response.json();
   return responseObj.geoplugin_city || DEFAULT_CITY;
+}
+
+function displayMap(cityName) {
+  const mapElement = document.querySelector(".map");
+  const height = mapElement.offsetHeight;
+  const width = mapElement.offsetWidth;
+  const url =
+    `https://maps.googleapis.com/maps/api/staticmap?center=` +
+    `${cityName}&zoom=12&size=${width}x${height}&key=${API_MAP}`;
+
+  function failedLoad() {
+    mapElement.src = unknownLocationImg;
+  }
+
+  fetch(url).then(
+    (response) => {
+      if (response.status === 200) {
+        mapElement.src = url;
+      } else {
+        failedLoad();
+      }
+    },
+    () => {
+      failedLoad();
+    }
+  );
 }
 
 export async function getCurrentCity() {
@@ -57,6 +85,7 @@ export async function clickWeatherButton(event) {
     ".forecast__image"
   ).src = `http://openweathermap.org/img/wn/${weatherInfo.weather[0].icon}.png`;
 
+  displayMap(cityName);
   addCityToHistory(cityName);
 }
 
@@ -100,6 +129,7 @@ export async function loadStarterPage() {
   document.querySelector(".forecast__city").innerText = cityName;
   loadHistoryList();
   addCityToHistory(cityName);
+  displayMap(cityName);
 
   const weatherInfo = await getWeatherInfo(cityName);
   if (weatherInfo) {

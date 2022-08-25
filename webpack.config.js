@@ -9,6 +9,9 @@ module.exports = {
     filename: "main.js",
     path: path.resolve(__dirname, "dist"),
     clean: true,
+    environment: {
+      arrowFunction: false,
+    },
   },
   devtool:
     process.env.MODE_ENV === "development" ? "eval-source-map" : "source-map",
@@ -35,6 +38,9 @@ module.exports = {
       {
         test: /\.png/,
         type: "asset/resource",
+        generator: {
+          filename: "images/[hash][ext]",
+        },
       },
     ],
   },

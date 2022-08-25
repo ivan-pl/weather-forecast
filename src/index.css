@@ -7,18 +7,95 @@
 }
 
 .main {
-  display: flex;
-  flex-flow: row nowrap;
+  display: grid;
+  grid-template-columns: 3fr 1fr;
+  grid-template-rows: 1fr 4fr;
+  grid-template-areas:
+    "forecast history"
+    "map history";
 
-  max-width: 1024px;
+  background-color: white;
+
+  min-width: 415px;
+  max-width: 512px;
+  max-height: 512px;
   margin: 0 auto;
 }
 
 .forecast {
-  width: 50%;
+  grid-area: forecast;
+}
+
+.history {
+  padding-top: 2rem;
+  grid-area: history;
+}
+
+.map-wrap {
+  grid-area: map;
+}
+
+.map {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.forecast__temperature::after {
+  content: "°C";
 }
 
 .forecast__image {
   height: 100%;
   width: 100%;
+}
+
+.forecast__weather-info {
+  display: flex;
+}
+.forecast__weather-text {
+  display: flex;
+  flex-flow: nowrap column;
+  justify-content: center;
+}
+
+.forecast__city {
+  margin: 0;
+}
+
+.history__wrap {
+  display: flex;
+  flex-flow: nowrap row;
+}
+
+.history__city {
+  line-height: 2rem;
+  cursor: pointer;
+}
+
+.history__city {
+  position: relative;
+  line-height: 2rem;
+  cursor: pointer;
+}
+
+.history__city::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: black;
+
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity 0.3s, transform 0.3s;
+}
+
+.history__city:hover::after,
+.history__city:focus::after {
+  opacity: 1;
+  transform: translateY(0px);
 }
