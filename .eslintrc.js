@@ -15,6 +15,7 @@ module.exports = {
       { ignoreComments: true, ignorePattern: "^\\s*it.*\\{$" },
     ],
     "no-alert": "off",
+    "no-plusplus": "off",
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
     "jest/no-disabled-tests": "warn",

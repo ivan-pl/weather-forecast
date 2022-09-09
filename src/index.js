@@ -1,5 +1,5 @@
 import "normalize.css";
-import "./index.css";
-import { loadStarterPage } from "./weatherForecast";
+import "./styles/index.css";
+import { loadStarterPage } from "./scripts/init";
 
 loadStarterPage();
