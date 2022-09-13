@@ -8,6 +8,7 @@ module.exports = (api) => ({
         targets: api.caller((caller) => caller && caller.target === "node")
           ? { node: "current" }
           : { chrome: "58", ie: "11" },
+        corejs: "3.24",
       },
     ],
   ],

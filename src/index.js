@@ -1,4 +1,5 @@
 import "normalize.css";
-import { addHeader } from "./addHeader";
+import "./styles/index.css";
+import { loadStarterPage } from "./scripts/init";
 
-addHeader(document.body);
+loadStarterPage();
