@@ -1,5 +1,5 @@
 {
-  "name": "js-basic-hw-7",
+  "name": "weather-forecast",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ivan-pl/js-basic-hw-7.git"
+    "url": "git+https://github.com/ivan-pl/weather-forecast.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ivan-pl/js-basic-hw-7/issues"
+    "url": "https://github.com/ivan-pl/weather-forecast/issues"
   },
-  "homepage": "https://github.com/ivan-pl/js-basic-hw-7#readme",
+  "homepage": "https://github.com/ivan-pl/weather-forecast#readme",
   "devDependencies": {
     "@babel/core": "^7.18.2",
     "@babel/preset-env": "^7.18.2",
