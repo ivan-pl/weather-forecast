@@ -51,10 +51,12 @@ module.exports = {
       },
     },
     {
-      files: ["*.test.js"],
+      files: ["*.test.[tj]s"],
       rules: {
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
+        "max-len": "off",
+        "@typescript-eslint/no-shadow": "off",
       },
     },
   ],

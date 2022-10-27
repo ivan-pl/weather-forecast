@@ -25,8 +25,12 @@ function loopReplace(tpl: string, data: { [key: string]: any }) {
     (_, propName, subTemplate) => {
       if (Array.isArray(data[propName])) {
         return data[propName].reduce(
-          (prev: string, item: { [key: string]: any }) =>
-            prev + template(subTemplate, item),
+          (prev: string, item: { [key: string]: any }, ind: number) =>
+            prev +
+            template(
+              subTemplate,
+              ind > 0 ? item : { ...item, "--isFirst": true }
+            ),
           ""
         );
       }
@@ -37,7 +41,7 @@ function loopReplace(tpl: string, data: { [key: string]: any }) {
 
 function ifReplace(tpl: string, data: { [key: string]: any }) {
   return tpl.replace(
-    /\{\{if (\w+)\}\}(.+?)(?:\{\{else\}\}(.+?))?\{\{endif\}\}/g,
+    /\{\{if ((?:--)?\w+)\}\}(.+?)(?:\{\{else\}\}(.+?))?\{\{endif\}\}/g,
     (_, flagName, subTemplateTrue, subTemplateFalse) => {
       return data[flagName]
         ? template(subTemplateTrue, data)

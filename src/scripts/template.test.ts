@@ -69,8 +69,51 @@ describe("template", () => {
         template("{{if FLAG}},{{NAME}},{{else}}.{{SURNAME}}.{{endif}}!", data)
       ).toBe(",A,!");
       expect(
-        template("{{if FLAG}},{{NAME}},{{else}}.{{SURNAME}}.{{endif}}!", {...data, FLAG: false})
+        template("{{if FLAG}},{{NAME}},{{else}}.{{SURNAME}}.{{endif}}!", {
+          ...data,
+          FLAG: false,
+        })
       ).toBe(".B.!");
+    });
+  });
+
+  describe("mix if and loop", () => {
+    const data = {
+      NAME: "Bob",
+      friends: [
+        {
+          NAME: "Sam",
+          AGE: 21,
+          FLAG: false,
+        },
+        {
+          NAME: "Alice",
+          AGE: 23,
+          FLAG: true,
+        },
+      ],
+    };
+
+    it("handles with if inside loop", () => {
+      expect(
+        template(
+          `<p>My name is {{NAME}}. And my friend are:</p><ul>{{for friends}}<li>{{NAME}}, {{AGE}} y.o.{{if FLAG}}!{{endif}}</li>{{endfor}}</ul>`,
+          data
+        )
+      ).toBe(
+        `<p>My name is Bob. And my friend are:</p><ul><li>Sam, 21 y.o.</li><li>Alice, 23 y.o.!</li></ul>`
+      );
+    });
+
+    it("supports isFirst inside loop", () => {
+      expect(
+        template(
+          `<p>My name is {{NAME}}. And my friend are:</p><ul>{{for friends}}<li>{{NAME}}, {{AGE}} y.o.{{if --isFirst}}!{{endif}}</li>{{endfor}}</ul>`,
+          data
+        )
+      ).toBe(
+        `<p>My name is Bob. And my friend are:</p><ul><li>Sam, 21 y.o.!</li><li>Alice, 23 y.o.</li></ul>`
+      );
     });
   });
 });
