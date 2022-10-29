@@ -30,6 +30,8 @@ jest.mock("./services", () => {
   };
 });
 
+App.prototype.onMount = jest.fn();
+
 describe("displayHistoryList", () => {
   it("adds 1 element", () => {
     const cityList = ["Moscow"];
