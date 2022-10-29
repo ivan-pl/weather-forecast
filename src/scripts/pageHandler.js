@@ -2,12 +2,6 @@ import { getSrcMap, getWeatherInfo } from "./services";
 import { addCityToStorage } from "./localStorageController";
 import unknownLocationImg from "../images/unknown_location.png";
 
-export function displayHistoryList(parentElem, stringArray) {
-  for (let i = stringArray.length - 1; i >= 0; i--) {
-    addCityToHistoryList(stringArray[i], parentElem);
-  }
-}
-
 async function updateMap(lat, lon) {
   const map = document.querySelector(".map");
   const src = await getSrcMap({
@@ -16,10 +10,6 @@ async function updateMap(lat, lon) {
     size: { width: map.width, height: map.height },
   });
   document.querySelector(".map").src = src ?? unknownLocationImg;
-}
-
-function clickCityName(event) {
-  updateData(event.target.innerText);
 }
 
 function deleteCityFromHistory(cityName) {
@@ -52,6 +42,12 @@ function addCityToHistoryList(cityName, parentElem) {
   addCityToStorage(cityName);
 }
 
+export function displayHistoryList(parentElem, stringArray) {
+  for (let i = stringArray.length - 1; i >= 0; i--) {
+    addCityToHistoryList(stringArray[i], parentElem);
+  }
+}
+
 export async function updateData(inputCity) {
   const weatherInfo = await getWeatherInfo(inputCity);
   if (weatherInfo === null) {
@@ -73,6 +69,10 @@ export async function updateData(inputCity) {
   ).src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
   addCityToHistoryList(cityName, document.querySelector(".history__list"));
   updateMap(lat, lon);
+}
+
+function clickCityName(event) {
+  updateData(event.target.innerText);
 }
 
 export function clickHistoryButton() {

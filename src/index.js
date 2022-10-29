@@ -1,5 +1,6 @@
 import "normalize.css";
 import "./styles/index.css";
-import { loadStarterPage } from "./scripts/init";
+import App from "./scripts/App";
 
-loadStarterPage();
+const root = document.getElementById("root");
+new App(root);

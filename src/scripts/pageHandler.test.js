@@ -1,8 +1,7 @@
-import fs from "fs";
-import path from "path";
 import { displayHistoryList, clickHistoryButton } from "./pageHandler";
 import { getWeatherInfo } from "./services";
 import { getHistoryList } from "./localStorageController";
+import App from "./App";
 
 const WEATHER = {
   coord: {
@@ -31,10 +30,7 @@ jest.mock("./services", () => {
   };
 });
 
-const html = fs.readFileSync(
-  path.resolve(__dirname, "..", "index.html"),
-  "utf8"
-);
+App.prototype.onMount = jest.fn();
 
 describe("displayHistoryList", () => {
   it("adds 1 element", () => {
@@ -62,7 +58,7 @@ describe("displayHistoryList", () => {
 
 describe("clickHistoryButton", () => {
   beforeEach(() => {
-    document.body.innerHTML = html.toString();
+    new App(document.body);
     clickHistoryButton();
   });
 

@@ -4,10 +4,18 @@ module.exports = {
     es2021: true,
     "jest/globals": true,
   },
-  extends: ["airbnb-base", "prettier"],
+  extends: [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "prettier",
+  ],
+  parser: "@typescript-eslint/parser",
+  plugins: ["@typescript-eslint", "jest"],
+  root: true,
   parserOptions: {
     ecmaVersion: "latest",
     sourceType: "module",
+    project: "./tsconfig.json",
   },
   rules: {
     "max-len": [
@@ -18,11 +26,16 @@ module.exports = {
     "no-plusplus": "off",
     "no-use-before-define": "off",
     "import/prefer-default-export": "off",
+    "@typescript-eslint/no-var-requires": "off",
     "jest/no-disabled-tests": "warn",
     "jest/no-focused-tests": "error",
     "jest/no-identical-title": "error",
     "jest/prefer-to-have-length": "warn",
     "jest/valid-expect": "error",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
+    "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   overrides: [
     {
@@ -39,12 +52,13 @@ module.exports = {
       },
     },
     {
-      files: ["*.test.js"],
+      files: ["*.test.[tj]s"],
       rules: {
         "no-await-in-loop": "off",
         "no-restricted-syntax": "off",
+        "max-len": "off",
+        "@typescript-eslint/no-shadow": "off",
       },
     },
   ],
-  plugins: ["jest"],
 };
