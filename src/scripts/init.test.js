@@ -1,6 +1,6 @@
 import { loadStarterPage } from "./init";
 import { addCityToStorage } from "./localStorageController";
-import App  from "./App";
+import App from "./App";
 
 const WEATHER = {
   coord: {

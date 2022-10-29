@@ -51,6 +51,7 @@ describe("Component", () => {
   it("handles events based on the mapping", async () => {
     class TestComponent extends Component {
       handleClickH1: (e: Event) => void;
+
       handleClickH2: (e: Event) => void;
 
       constructor(...args: ConstructorParameters<typeof Component>) {
@@ -98,6 +99,7 @@ describe("Component", () => {
           "click@h1": this.handleClickH1,
         };
       }
+
       render() {
         return `<h1>${this.state.counter}</h1>`;
       }

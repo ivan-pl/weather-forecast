@@ -35,6 +35,7 @@ module.exports = {
     "import/no-extraneous-dependencies": "off",
     "import/extensions": "off",
     "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/no-explicit-any": "off",
   },
   overrides: [
     {

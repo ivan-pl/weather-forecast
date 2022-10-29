@@ -23,7 +23,7 @@ export class Component {
   }
 
   subscribeToEvents() {
-    for (let [eventDesc, handler] of Object.entries(this.events)) {
+    for (const [eventDesc, handler] of Object.entries(this.events)) {
       const [event, query] = eventDesc.split("@");
       const emitter = this.root.querySelector(query);
       emitter?.addEventListener(event, handler);
