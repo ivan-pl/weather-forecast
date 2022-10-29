@@ -7,6 +7,6 @@ export declare class Component<State = {}> {
   constructor(el: HTMLElement, initialState?: Partial<State>);
   subscribeToEvents(): void;
   setState(patch: any): void;
-  onMount(el: HTMLElement): void;
+  onMount(): void;
   render(): string;
 }

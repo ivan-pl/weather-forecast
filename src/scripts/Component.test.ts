@@ -114,4 +114,26 @@ describe("Component", () => {
     expect(cmp.handleClickH1).toHaveBeenCalledTimes(2);
     expect(el.innerHTML).toBe(`<h1>5</h1>`);
   });
+
+  it("calls .onMount on first rendering only", () => {
+    class TestComponent extends Component {
+      onMount() {
+        this.setState({ name: "Bob" });
+      }
+
+      render() {
+        return `<h1>${text}${this.state.name}</h1>`;
+      }
+    }
+
+    const onMountMock = jest.spyOn(TestComponent.prototype, "onMount");
+
+    const cmp = new TestComponent(el);
+    expect(el.innerHTML).toBe(`<h1>${text}Bob</h1>`);
+    expect(onMountMock).toHaveBeenCalledTimes(1);
+
+    cmp.setState({ name: "Mark" });
+    expect(el.innerHTML).toBe(`<h1>${text}Mark</h1>`);
+    expect(onMountMock).toHaveBeenCalledTimes(1);
+  });
 });

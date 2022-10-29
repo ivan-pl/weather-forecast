@@ -6,12 +6,15 @@ export class Component {
     public state: { [key: string]: any } = {}
   ) {
     root.innerHTML = this.render();
+    this.onMount();
     Promise.resolve().then(() => this.subscribeToEvents());
   }
 
   render() {
     return "";
   }
+
+  onMount(): void {}
 
   setState(patch: any): void {
     this.state = { ...this.state, ...patch };
