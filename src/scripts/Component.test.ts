@@ -73,7 +73,7 @@ describe("Component", () => {
     const h1 = el.querySelector("h1");
     const h2 = el.querySelector("h2");
 
-    await sleep(10)
+    await sleep(10);
     h1?.click();
     expect(cmp.handleClickH1).toHaveBeenCalledTimes(1);
     expect(cmp.handleClickH2).not.toHaveBeenCalled();
@@ -81,5 +81,37 @@ describe("Component", () => {
     h2?.click();
     expect(cmp.handleClickH1).toHaveBeenCalledTimes(1);
     expect(cmp.handleClickH2).toHaveBeenCalledTimes(1);
+  });
+
+  it("handles events based on the mapping after rerender", async () => {
+    class TestComponent extends Component {
+      handleClickH1: (e: Event) => void;
+
+      constructor(...args: ConstructorParameters<typeof Component>) {
+        super(...args);
+        this.handleClickH1 = jest.fn(() =>
+          this.setState({
+            counter: this.state.counter + 1,
+          })
+        );
+        this.events = {
+          "click@h1": this.handleClickH1,
+        };
+      }
+      render() {
+        return `<h1>${this.state.counter}</h1>`;
+      }
+    }
+    const cmp = new TestComponent(el, {
+      counter: 3,
+    });
+    await sleep(10);
+    el.querySelector("h1")?.click();
+    expect(cmp.handleClickH1).toHaveBeenCalledTimes(1);
+    expect(el.innerHTML).toBe(`<h1>4</h1>`);
+
+    el.querySelector("h1")?.click();
+    expect(cmp.handleClickH1).toHaveBeenCalledTimes(2);
+    expect(el.innerHTML).toBe(`<h1>5</h1>`);
   });
 });

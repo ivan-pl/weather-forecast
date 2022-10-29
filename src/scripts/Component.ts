@@ -16,6 +16,7 @@ export class Component {
   setState(patch: any): void {
     this.state = { ...this.state, ...patch };
     this.root.innerHTML = this.render();
+    this.subscribeToEvents();
   }
 
   subscribeToEvents() {
