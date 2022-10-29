@@ -1,9 +1,12 @@
 export class Component {
+  events: { [key: string]: (e: Event) => void } = {};
+
   constructor(
-    private el: HTMLElement,
+    private root: HTMLElement,
     public state: { [key: string]: any } = {}
   ) {
-    el.innerHTML = this.render();
+    root.innerHTML = this.render();
+    Promise.resolve().then(() => this.subscribeToEvents());
   }
 
   render() {
@@ -12,6 +15,14 @@ export class Component {
 
   setState(patch: any): void {
     this.state = { ...this.state, ...patch };
-    this.el.innerHTML = this.render();
+    this.root.innerHTML = this.render();
+  }
+
+  subscribeToEvents() {
+    for (let [eventDesc, handler] of Object.entries(this.events)) {
+      const [event, query] = eventDesc.split("@");
+      const emitter = this.root.querySelector(query);
+      emitter?.addEventListener(event, handler);
+    }
   }
 }
