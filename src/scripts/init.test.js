@@ -1,12 +1,6 @@
-import fs from "fs";
-import path from "path";
 import { loadStarterPage } from "./init";
 import { addCityToStorage } from "./localStorageController";
-
-const html = fs.readFileSync(
-  path.resolve(__dirname, "..", "index.html"),
-  "utf8"
-);
+import App  from "./App";
 
 const WEATHER = {
   coord: {
@@ -42,7 +36,7 @@ describe("loadStarterPage", () => {
     for (let i = 0; i < citiesCount; i++) {
       addCityToStorage(`Moscow ${i}`);
     }
-    document.documentElement.innerHTML = html.toString();
+    new App(document.body);
     loadStarterPage();
   });
 
